@@ -2,36 +2,29 @@ import { FaFileInvoiceDollar } from '@meronex/icons/fa'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button, LayoutOne, Table, Text } from 'upkit'
+import { useOrderData } from '../../app/hooks/invoice'
 import TopBar from '../../components/TopBar'
 
 const columns = [
   {
-    Header: '', 
+    Header: 'Order Id', 
     id: 'Status', 
-    accessor: order => {
+    accessor: data => {
       return <div>
-      #{order.order_number} <br/> 
+      #{data.order_number} <br/> 
 
       </div> 
     }
   },
   {
     Header: 'Items', 
-    accessor: order => {
+    accessor: data => {
       return <div>
-        {order.order_items.map(item => {
+        {data.order_items.map(item => {
           return <div key={item._id}>
             {item.name} {item.qty}
           </div>
         })}
-      </div>
-    }
-  },
-  {
-    Header: 'Total',
-    accessor: order => {
-      return <div>
-        { order.delivery_fee}
       </div>
     }
   },
@@ -50,6 +43,7 @@ const columns = [
 ]
 
 export default function UserOrder() {
+  const {count, data, limit, page, setPage, status} = useOrderData();
   const pesanan = [
     {
       "delivery_address": {
@@ -91,13 +85,22 @@ export default function UserOrder() {
        <br />
 
        <Table
+            items={data}
+            columns={columns}
+            totalItems={count}
+            page={page}
+            isLoading={status === 'proccess'}
+            perPage={limit}
+            onPageChange={page => setPage(page)}
+          />
+       {/* <Table
          items={pesanan}
          totalItems={1}
          columns={columns}
          onPageChange={ () => {}}
          page={1}
          isLoading={false}
-       />
+       /> */}
 
      </LayoutOne>
   )

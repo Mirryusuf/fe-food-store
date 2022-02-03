@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 export default function StoreLogo() {
   return (
     <Link to="/">
-       <div className="text-red-600 font-bold text-4xl">Eduwork Food Store</div>
+       <div className="text-red-600 font-bold text-4xl">Amir Food Store</div>
      </Link>
   )
 }
